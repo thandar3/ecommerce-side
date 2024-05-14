@@ -75,12 +75,12 @@
                             </a>
                         </li>
                         <li>
-                            <a href="category.html">
-                                <i class="fas fa-chart-bar"></i>User Profile</a>
+                            <a href="{{ route('productAdmin#List') }}">
+                                <i class="fa-brands fa-pagelines"></i>Product list</a>
                         </li>
                         <li>
-                            <a href="customerList.html">
-                                <i class="fas fa-chart-bar"></i>Order List</a>
+                            <a href="{{ route('user#list') }}">
+                                <i class="fa-solid fa-user"></i>User List</a>
                         </li>
                     </ul>
                 </nav>
@@ -259,7 +259,7 @@
                             @endforeach
                         </div>
                     @else
-                        <h2 class="no_categories">There is no Categories</h2>
+                        <h2 class="no_categories text-danger" style="text-align: center">There is no Categories</h2>
                     @endif
                 </div>
             </div>

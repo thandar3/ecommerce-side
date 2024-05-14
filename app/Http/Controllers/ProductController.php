@@ -2,12 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    //product list
-    public function productList(){
-            return view('user.product.list');
+    //product list for Admin
+    public function productAdminList(){
+        $products = Product::when(request('key'),function($query){
+            $query->where('name','like','%'.request('key').'%');
+        })->get();
+        return view('admin.product.productList',compact('products'));
+    }
+
+    //product create
+    public function productCreate(){
+        $categoryItems =Category::select('name')->get();
+        return view('admin.product.create',compact('categoryItems',));
+    }
+
+    //product data store
+    public function productCreated(Request $request){
+       $this->prodcutCreateValidation($request);
+       $data = $this->productCreatedList($request);
+
+        $fileName = uniqid().$request->file('product_image')->getCLientOriginalName();
+        $request->file('product_image')->storeAs('public/ProductsImages',$fileName);
+        $data['image'] =$fileName;
+
+       Product::create($data);
+       return redirect()->route('productAdmin#List')->with(['createSuccess' => 'Your product created']);
+    }
+
+    //data store for product
+    private function productCreatedList($request){
+        return [
+            'name' => $request->product_name,
+            'description' => $request->description,
+            'product_category' => $request->product_category,
+            'price' => $request->product_price,
+        ];
+    }
+
+    //validatino for product create form
+    private function prodcutCreateValidation($request){
+        $validationCheck = [
+            'product_name' => 'required',
+            'product_category' => 'required',
+            'description' => 'required',
+            'product_price' => 'required',
+            'product_image' => 'required|mimes:jpg,png,jpeg|file',
+        ];
+
+        Validator::make($request->all(),$validationCheck)->validate();
     }
 }

@@ -10,7 +10,7 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Category List</title>
+    <title>Product create</title>
 
     <!-- Fontfaces CSS-->
     <link href="{{ asset('admin/css/font-face.css') }}" rel="stylesheet" media="all">
@@ -75,7 +75,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('product#list') }}">
+                            <a href="{{ route('productAdmin#List') }}">
                                 <i class="fa-brands fa-pagelines"></i>Product list</a>
                         </li>
                         <li>
@@ -201,16 +201,18 @@
                                 </div>
                                 <div class="table-data__tool-right">
                                     <a href="{{ route('category#list') }}">
-                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small">Back to Category
+                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                            <i class="zmdi zmdi-plus"></i>Back to Category
                                         </button>
                                     </a>
 
                                 </div>
                             </div>
 
-                            <form action="{{ route('category#created') }}" method="POST">
+                            <form action="{{ route('product#created') }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
-                                <input type="hidden" name="admin_id" value="{{ Auth::user()->id }}">
+
 
                                 <div class="row border-sm">
                                     <div class="col-lg-3 offset-4 col-sm-12">
@@ -227,12 +229,60 @@
                                                 </div>
                                             @endif
 
-                                            <label>Category Name</label>
-                                            <input class="au-input au-input--full" style="border-radius: 10px"
-                                                type="text" name="categories" placeholder="items...">
-                                            @error('categories')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            <div class="">
+                                                <label>Product image</label>
+                                                <input class="au-input au-input--full" style="border-radius: 10px"
+                                                    type="file" name="product_image">
+                                                @error('product_image')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <div class="">
+                                                <label>Product Name</label>
+                                                <input class="au-input au-input--full" style="border-radius: 10px"
+                                                    type="text" name="product_name">
+                                                @error('product_name')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <div class="mt-3">
+                                                <label>Product category</label><br>
+                                                <select name="product_category" class="mt-3 form-control">
+                                                    @foreach ($categoryItems as $c)
+                                                        <option value="{{ $c->name }}"> {{ $c->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select><br>
+                                                @error('products')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <div class="mt-3">
+                                                <label>Product description</label>
+                                                <textarea class="au-input au-input--full" style="border-radius: 10px" type="text" name="description"
+                                                    placeholder="..."></textarea>
+                                                @error('description')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <div class="mt-3">
+                                                <label>Product price</label>
+                                                <input class="au-input au-input--full" style="border-radius: 10px"
+                                                    type="number" name="product_price" placeholder="price...">
+                                                @error('description')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <div class="mt-3">
+                                                <button class="au-btn au-btn--block au-btn--green m-b-20 mt-3"><i
+                                                        class="fa-solid fa-eye"></i><span>1</span>
+                                                </button>
+                                            </div>
 
 
                                             <button class="au-btn au-btn--block au-btn--green m-b-20 mt-3"

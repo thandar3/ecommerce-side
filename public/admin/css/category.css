@@ -35,9 +35,63 @@ body{
     padding-top: 10px;
     border-radius: 20px;
 }
+.second_flex{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+.second_box{
+    width: 300px;
+    height: 100%;
+    border: 4px solid #eb572f;
+    color: rgb(66, 65, 65);
+    text-align: center;
+    line-height: 20px;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 20px;
+}
 
 .category_create{
     border: 3px solid #eb572f;
     padding: 30px;
     border-radius: 10px;
+}
+/* .product_container{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+.product_box{
+    width: 300px;
+    height: 100%;
+    line-height:20px;
+    text-align: center;
+    border: 3px solid #eb572f;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 10px;
+} */
+.color_list{
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+
+}
+.list_all{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+.title_text{
+    font-size: 30px;
+    font-family: "Poppins", sans-serif;
+}
+.card_text{
+    color: black;
+    font-family: "Poppins", sans-serif;
+    font-size: 10px;
 }

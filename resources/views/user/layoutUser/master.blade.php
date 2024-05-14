@@ -83,14 +83,14 @@
                                     <li><a href="#" class="dropdown-item">Change
                                             Password</a></li>
                                     <li>
-                                        <span href="" class="dropdown-item">
-                                            <form action="#" class="d-inline" method="POST">
+                                        <div class="dropdown-item">
+                                            <form action="{{ route('logout') }}" class="d-inline" method="POST">
                                                 @csrf
                                                 <button type="submit" style="border-radius: 15px"
                                                     class="bg-dark text-light"><i
                                                         class="fa-solid fa-right-from-bracket me-1"></i>Logout</button>
                                             </form>
-                                        </span>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>

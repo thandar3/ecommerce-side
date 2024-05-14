@@ -10,7 +10,7 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Category List</title>
+    <title>User List</title>
 
     <!-- Fontfaces CSS-->
     <link href="{{ asset('admin/css/font-face.css') }}" rel="stylesheet" media="all">
@@ -71,11 +71,11 @@
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
                             <a class="js-arrow" href="{{ route('category#list') }}">
-                                <i class="fa-solid fa-list-ul"></i>Category list
+                                <i class="fa-solid fa-list-ul"></i>Products lists
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('product#list') }}">
+                            <a href="{{ route('productAdmin#List') }}">
                                 <i class="fa-brands fa-pagelines"></i>Product list</a>
                         </li>
                         <li>
@@ -95,12 +95,17 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="header-wrap">
-                            <form class="form-header" action="" method="POST">
-                                <input class="au-input au-input--xl" type="text" name="search"
+                            <form class="form-header" action="" method="GET">
+                                <input class="au-input au-input--xl" type="text" name="key"
                                     placeholder="Search for datas &amp; reports..." />
                                 <button class="au-btn--submit" type="submit">
                                     <i class="zmdi zmdi-search"></i>
                                 </button>
+                                <a href="{{ route('user#list') }}" class="ms-2">
+                                    <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                        back to list
+                                    </button>
+                                </a>
                             </form>
                             <div class="header-button">
                                 {{-- <div class="noti-wrap">
@@ -187,71 +192,105 @@
             <!-- HEADER DESKTOP-->
 
             <!-- MAIN CONTENT-->
-            <div class="main-content">
+            <div class="main-content ">
                 <div class="section__content section__content--p30">
-                    <div class="container-fluid">
-                        <div class="col-md-12">
-                            <!-- DATA TABLE -->
-                            <div class="table-data__tool">
-                                <div class="table-data__tool-left">
-                                    <div class="overview-wrap">
-                                        <h2 class="title-1">Category create</h2>
-
-                                    </div>
-                                </div>
-                                <div class="table-data__tool-right">
-                                    <a href="{{ route('category#list') }}">
-                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small">Back to Category
-                                        </button>
-                                    </a>
-
+                    <div class="">
+                        <!-- DATA TABLE -->
+                        <div class="table-data__tool">
+                            <div class="table-data__tool-left">
+                                <div class="overview-wrap">
+                                    <h2 class="title-1">User Lists</h2>
+                                    <h4 class="ms-3 border-sm total">Total Users - ({{ count($users) }})
+                                    </h4>
                                 </div>
                             </div>
+                            <div class="table-data__tool-right">
+                                <a href="">
+                                    <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                        <i class="zmdi zmdi-plus"></i>Add Item
+                                    </button>
+                                </a>
 
-                            <form action="{{ route('category#created') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="admin_id" value="{{ Auth::user()->id }}">
-
-                                <div class="row border-sm">
-                                    <div class="col-lg-3 offset-4 col-sm-12">
-                                        <div class="category_create">
-
-                                            @if (session('createSuccess'))
-                                                <div class="alert alert-success alert-dismissible fade show "
-                                                    role="alert">
-                                                    <strong>
-                                                        <i class="zmdi zmdi-check"></i>
-                                                        {{ session('createSuccess') }}</strong>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                            @endif
-
-                                            <label>Category Name</label>
-                                            <input class="au-input au-input--full" style="border-radius: 10px"
-                                                type="text" name="categories" placeholder="items...">
-                                            @error('categories')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-
-
-                                            <button class="au-btn au-btn--block au-btn--green m-b-20 mt-3"
-                                                type="submit">Create
-                                                <span><i class="fa-solid fa-circle-plus"></i></span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                            <!-- END DATA TABLE -->
+                            </div>
                         </div>
+                        <!-- END DATA TABLE -->
                     </div>
+
+                    {{-- Category list  --}}
+                    @if (session('createSuccess'))
+                        <div class="alert alert-success alert-dismissible fade show " role="alert">
+                            <strong>
+                                <i class="zmdi zmdi-check"></i>
+                                {{ session('createSuccess') }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
+                    @endif
+
+
+                    @if (count($users) != 0)
+                        <div class="table-responsive table-responsive-data2 mt-3">
+                            <table class="table table-data2 text-center">
+                                <thead>
+                                    <tr class="mb-2">
+                                        <th>Image</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Address</th>
+                                        <th>Role</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="allRole">
+                                    <tr>
+                                        @foreach ($users as $u)
+                                            <th class="col-1">
+                                                @if ($u->image == null)
+                                                    <img src="{{ asset('defaultImage.png') }}" alt="Male User"
+                                                        class="img-thumbnail ms-2" />
+                                                @else
+                                                    <img src="{{ asset('storage/userImage' . $u->image) }}"
+                                                        alt="login user" class="img-thumbnail ms-2" />
+                                                @endif
+                                            </th>
+                                            <input type="hidden" value="{{ $u->id }}" id="userId">
+                                            <th>{{ $u->name }}</th>
+                                            <th>{{ $u->email }}</th>
+                                            <th>{{ $u->phone }}</th>
+                                            <th>{{ $u->address }}</th>
+                                            <th>
+                                                <select class="form-control statusChange">
+                                                    <option value="user"
+                                                        @if ($u->role == 'user') selected @endif>
+                                                        User</option>
+                                                    <option value="admin"
+                                                        @if ($u->role == 'admin') selected @endif>
+                                                        Admin
+                                                    </option>
+                                                </select>
+                                            </th>
+                                        @endforeach
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    @else
+                        <h2 class="no_categories text-danger" style="text-align: center">There is no user list</h2>
+                    @endif
+
                 </div>
             </div>
-            <!-- END MAIN CONTENT-->
-            <!-- END PAGE CONTAINER-->
         </div>
+        <!-- END MAIN CONTENT-->
+
+        <!-- END PAGE CONTAINER-->
+    </div>
 
     </div>
+
+    {{-- jquery link  --}}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
     {{-- bootstrap js link --}}
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -280,6 +319,31 @@
 
     <!-- Main JS-->
     <script src="{{ asset('admin/js/main.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $(".statusChange").change(function() {
+
+                $currentStatus = $(this).val();
+                $parentNode = $(this).parents("tbody");
+                $userId = $parentNode.find("#userId").val();
+
+
+
+                $.ajax({
+                    type: 'get',
+                    url: 'http://127.0.0.1:8000/user/change',
+                    data: {
+                        'userId': $userId,
+                        'status': $currentStatus,
+                    },
+                    dataType: 'json',
+                });
+
+                location.reload();
+            });
+
+        })
+    </script>
 
 </body>
 
