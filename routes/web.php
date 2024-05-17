@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AdminAccController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductControllerUser;
 
@@ -37,11 +38,23 @@ Route::middleware(['admin_auth'])->group(function () {
         Route::get('List',[ProductController::class,'productAdminList'])->name('productAdmin#List');
         Route::get('create',[ProductController::class,'productCreate'])->name('product#create');
         Route::post('created',[ProductController::class,'productCreated'])->name('product#created');
+        Route::get('delte/{id}',[ProductController::class,'productDelete'])->name('product#delete');
+        Route::get('edit/{id}',[ProductController::class,'editPage'])->name('product#editPage');
+        Route::post('updateAdmin',[ProductController::class,'updatedPage'])->name('product#updatePage');
+
     });
+
 
     Route::prefix('user')->group(function(){
         Route::get('list',[AuthController::class,'userList'])->name('user#list');
         Route::get('change',[AuthController::class,'userChange'])->name('user#change');
+    });
+
+    Route::prefix('account')->group(function(){
+        Route::get('show',[AdminAccController::class,'accountShow'])->name('account#show');
+        Route::get('create',[AdminAccController::class,'accountCreate'])->name('account#create');
+        Route::get('edit/{id}',[AdminAccController::class,'accountEdit'])->name('account#edit');
+        Route::post('update',[AdminAccController::class,'accountUpdate'])->name('account#update');
     });
 });
 

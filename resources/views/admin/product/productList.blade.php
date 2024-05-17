@@ -70,13 +70,13 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
-                            <a class="js-arrow" href="{{ route('category#list') }}">
+                            <a class="js-arrow" href="{{ route('productAdmin#List') }}">
                                 <i class="fa-solid fa-list-ul"></i>Products lists
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('productAdmin#List') }}">
-                                <i class="fa-brands fa-pagelines"></i>Product list</a>
+                            <a href="{{ route('category#list') }}">
+                                <i class="fa-brands fa-pagelines"></i>Categories list</a>
                         </li>
                         <li>
                             <a href="{{ route('user#list') }}">
@@ -152,7 +152,13 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="{{ asset('defaultImage.png') }}" alt="John Doe" />
+                                            @if (Auth::user()->image == null)
+                                                <img src="{{ asset('defaultImage.png') }}" alt="Default user" />
+                                            @else
+                                                <img class=""
+                                                    src="{{ asset('storage/userPhotos/' . Auth::user()->image) }}"
+                                                    alt="Card image cap">
+                                            @endif
                                         </div>
                                         <div class="content">
                                             <a class="js-acc-btn" href="#">{{ Auth::user()->name }}</a>
@@ -161,7 +167,14 @@
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="{{ asset('defaultImage.png') }}" alt="John Doe" />
+                                                        @if (Auth::user()->image == null)
+                                                            <img src="{{ asset('defaultImage.png') }}"
+                                                                alt="Default user" />
+                                                        @else
+                                                            <img class=""
+                                                                src="{{ asset('storage/userPhotos/' . Auth::user()->image) }}"
+                                                                alt="Card image cap">
+                                                        @endif
                                                     </a>
                                                 </div>
                                                 <div class="content">
@@ -173,13 +186,23 @@
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="#">
+                                                    <a href="{{ route('account#show') }}">
                                                         <i class="zmdi zmdi-account"></i>Account</a>
                                                 </div>
                                             </div>
+                                            <div class="account-dropdown__body">
+                                                <div class="account-dropdown__item">
+                                                    <a href="{{ route('account#create') }}">
+                                                        <i class="zmdi zmdi-account"></i>Account Edit</a>
+                                                </div>
+                                            </div>
                                             <div class="account-dropdown__footer">
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-power"></i>Logout</a>
+                                                <form action="{{ route('logout') }}" method="POST">
+                                                    @csrf
+
+                                                    <button type="submit" class="btn p-3"> <i
+                                                            class="zmdi zmdi-power me-2"></i>Logout</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -226,6 +249,24 @@
                                 aria-label="Close"></button>
                         </div>
                     @endif
+                    @if (session('deleteSuccess'))
+                        <div class="alert alert-success alert-dismissible fade show " role="alert">
+                            <strong>
+                                <i class="zmdi zmdi-check"></i>
+                                {{ session('deleteSuccess') }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
+                    @endif
+                    @if (session('updatedSuccess'))
+                        <div class="alert alert-success alert-dismissible fade show " role="alert">
+                            <strong>
+                                <i class="zmdi zmdi-check"></i>
+                                {{ session('updatedSuccess') }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
+                    @endif
 
 
                     @if (count($products) != 0)
@@ -237,8 +278,16 @@
                                         alt="Card image cap">
                                     <h5 class="title_text">{{ $product->name }}</h5>
                                     <p>{{ $product->description }}</p>
-                                    <p>{{ $product->price }}</p>
+                                    <p>{{ $product->price }} Kyats</p>
                                     <h6>Product Category - ({{ $product->product_category }})</h6>
+                                    <div class="">
+                                        <a href="{{ route('product#delete', $product->id) }}">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                        <a href="{{ route('product#editPage', $product->id) }}" class="ms-3">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             @endforeach
 

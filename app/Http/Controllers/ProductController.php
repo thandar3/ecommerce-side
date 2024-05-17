@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -36,11 +37,72 @@ class ProductController extends Controller
        return redirect()->route('productAdmin#List')->with(['createSuccess' => 'Your product created']);
     }
 
+    //product delete
+    public function productDelete($id){
+        Product::where('id',$id)->delete();
+        return redirect()->route('productAdmin#List')->with(['deleteSuccess' => 'Your product delected!']);
+    }
+
+    //prodcut edit Page
+    public function editPage($id){
+       $product =  Product::where('id',$id)->first();
+       $products = Product::get();
+        return view('admin.product.edit',compact('product','products'));
+    }
+
+    //updated products
+    public function updatedPage(Request $request){
+
+        $this->editProductValidation($request);
+        $datas = $this->productUpdateList($request);
+
+        if($request->hasFile('product_image')){
+
+            $oldImage = Product::where('id',$request->product_id)->first();
+            $oldImage = $oldImage->image;
+
+            if($oldImage != null){
+                Storage::delete('public/ProductsImages'. $oldImage);
+            }
+
+            $fileName = uniqid().$request->file('product_image')->getClientOriginalName();
+            $request->file('product_image')->storeAs('public/ProductsImages',$fileName);
+            $datas['image'] = $fileName;
+        }
+
+        Product::where('id',$request->product_id)->update($datas);
+        return redirect()->route('productAdmin#List')->with(['updatedSuccess' => 'Your Product updated']);
+    }
+
+    //edit data
+    private function productUpdateList($request){
+        return [
+            'name' => $request->product_name,
+            'description' => $request->product_description,
+            'product_category' => $request->product_category,
+            'price' => $request->product_price,
+
+        ];
+    }
+
+    //edit data validation
+    private function editProductValidation($request){
+        $productFormValidation = [
+            'product_name' => 'required',
+            'product_description' => 'required',
+            'product_price' => 'required',
+            'product_category' => 'required',
+
+        ];
+
+        Validator::make($request->all(),$productFormValidation)->validate();
+    }
+
     //data store for product
     private function productCreatedList($request){
         return [
             'name' => $request->product_name,
-            'description' => $request->description,
+            'description' => $request->product_description,
             'product_category' => $request->product_category,
             'price' => $request->product_price,
         ];

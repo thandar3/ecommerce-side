@@ -152,7 +152,13 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="{{ asset('defaultImage.png') }}" alt="John Doe" />
+                                            @if (Auth::user()->image == null)
+                                                <img src="{{ asset('defaultImage.png') }}" alt="Default user" />
+                                            @else
+                                                <img class=""
+                                                    src="{{ asset('storage/userPhotos/' . Auth::user()->image) }}"
+                                                    alt="Card image cap">
+                                            @endif
                                         </div>
                                         <div class="content">
                                             <a class="js-acc-btn" href="#">{{ Auth::user()->name }}</a>
@@ -161,7 +167,14 @@
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="{{ asset('defaultImage.png') }}" alt="John Doe" />
+                                                        @if (Auth::user()->image == null)
+                                                            <img src="{{ asset('defaultImage.png') }}"
+                                                                alt="Default user" />
+                                                        @else
+                                                            <img class=""
+                                                                src="{{ asset('storage/userPhotos/' . Auth::user()->image) }}"
+                                                                alt="Card image cap">
+                                                        @endif
                                                     </a>
                                                 </div>
                                                 <div class="content">
@@ -173,13 +186,25 @@
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="#">
+                                                    <a href="{{ route('account#show') }}">
                                                         <i class="zmdi zmdi-account"></i>Account</a>
                                                 </div>
                                             </div>
+                                            <div class="account-dropdown__body">
+                                                <div class="account-dropdown__item">
+                                                    <a href="{{ route('account#create') }}">
+                                                        <i class="zmdi zmdi-account"></i>Account Edit</a>
+                                                </div>
+                                            </div>
                                             <div class="account-dropdown__footer">
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-power"></i>Logout</a>
+                                                <div class="account-dropdown__item">
+                                                    <form action="{{ route('logout') }}" method="POST">
+                                                        @csrf
+
+                                                        <button type="submit" class="btn p-3"> <i
+                                                                class="zmdi zmdi-power me-2"></i>Logout</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -253,6 +278,7 @@
                                                 <button><i class="fa-solid fa-pen text-primary"></i></button>
                                             </a>
                                         </div>
+
                                     </h5>
 
                                 </div>

@@ -10,7 +10,7 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>@yield('title')</title>
+    <title>Category Update</title>
 
     <!-- Fontfaces CSS-->
     <link href="{{ asset('admin/css/font-face.css') }}" rel="stylesheet" media="all">
@@ -39,6 +39,7 @@
     <link href="{{ asset('admin/vendor/perfect-scrollbar/perfect-scrollbar.css') }}" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
+    <link rel="stylesheet" href="{{ asset('admin/css/category.css') }}">
     <link href="{{ asset('admin/css/theme.css') }}" rel="stylesheet" media="all">
 
     {{-- Css bootstrap link --}}
@@ -62,7 +63,7 @@
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
                 <a href="#">
-                    <img src="images/icon/logo.png" alt="Cool Admin" />
+                    <img src="images/icon/logo.png" alt="Bear shoppe" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
@@ -70,12 +71,12 @@
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
                             <a class="js-arrow" href="{{ route('category#list') }}">
-                                <i class="fa-solid fa-list-ul"></i>Category lists
+                                <i class="fa-solid fa-list-ul"></i>Category list
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('productAdmin#List') }}">
-                                <i class="fa-brands fa-pagelines"></i>Product list</a>
+                            <a href="{{ route('product#list') }}">
+                                <i class="fa-brands fa-pagelines"></i>Product list
                         </li>
                         <li>
                             <a href="{{ route('user#list') }}">
@@ -147,10 +148,11 @@
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
                                             @if (Auth::user()->image == null)
-                                                <img src="{{ asset('defaultImage.png') }}" alt="John Doe" />
+                                                <img src="{{ asset('defaultImage.png') }}" alt="Default user" />
                                             @else
-                                                <img src="{{ asset('storage/userPhotos/' . Auth::user()->image) }}"
-                                                    alt="">
+                                                <img class=""
+                                                    src="{{ asset('storage/userPhotos/' . Auth::user()->image) }}"
+                                                    alt="Card image cap">
                                             @endif
                                         </div>
                                         <div class="content">
@@ -162,10 +164,11 @@
                                                     <a href="#">
                                                         @if (Auth::user()->image == null)
                                                             <img src="{{ asset('defaultImage.png') }}"
-                                                                alt="John Doe" />
+                                                                alt="Default user" />
                                                         @else
-                                                            <img src="{{ asset('storage/userPhotos/' . Auth::user()->image) }}"
-                                                                alt="">
+                                                            <img class=""
+                                                                src="{{ asset('storage/userPhotos/' . Auth::user()->image) }}"
+                                                                alt="Card image cap">
                                                         @endif
                                                     </a>
                                                 </div>
@@ -185,7 +188,7 @@
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
                                                     <a href="{{ route('account#create') }}">
-                                                        <i class="zmdi zmdi-account"></i>Account edit</a>
+                                                        <i class="zmdi zmdi-account"></i>Account Edit</a>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__footer">
@@ -212,23 +215,136 @@
                     <div class="container-fluid">
                         <div class="col-md-12">
                             <!-- DATA TABLE -->
-                            {{-- <div class="table-data__tool">
+                            <div class="table-data__tool">
                                 <div class="table-data__tool-left">
                                     <div class="overview-wrap">
-                                        <h2 class="title-1">Product List</h2>
+                                        <h2 class="title-1">Product edit</h2>
 
                                     </div>
                                 </div>
                                 <div class="table-data__tool-right">
-                                    <a href="category.html">
+                                    <a href="{{ route('productAdmin#List') }}">
                                         <button class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                            <i class="zmdi zmdi-plus"></i>Add Item
+                                            <i class="zmdi zmdi-plus"></i>Back to product
                                         </button>
                                     </a>
 
                                 </div>
-                            </div> --}}
-                            @yield('contents')
+                            </div>
+
+
+
+                            <form action="{{ route('product#updatePage') }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+
+                                <div class="row border-sm">
+                                    <div class="col-3 offset-4">
+                                        <div class="category_create">
+                                            @if (session('updatedSuccess'))
+                                                <div class="alert alert-success alert-dismissible fade show "
+                                                    role="alert">
+                                                    <strong>
+                                                        <i class="zmdi zmdi-check"></i>
+                                                        {{ session('updatedSuccess') }}</strong>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                            @endif
+                                            <div class="form-group ">
+
+                                                <label for="cc-payment" class="control-label mb-1">Product
+                                                    Name</label>
+                                                <input id="cc-pament" name="product_name" type="text"
+                                                    class="form-control  @error('product_name')is-invalid @enderror"
+                                                    aria-required="true" aria-invalid="false"
+                                                    placeholder="{{ $product->name }}">
+                                            </div>
+                                            @error('product_name')
+                                                <span class="text-danger">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                            <div class="form-group ">
+
+
+                                                <div class="form-group ">
+
+                                                    <label for="cc-payment" class="control-label mb-1">Product
+                                                        description</label>
+                                                    <textarea id="cc-pament" name="product_description" type="text"
+                                                        class="form-control  @error('product_description')is-invalid @enderror" aria-required="true" aria-invalid="false"
+                                                        placeholder="{{ $product->description }}"></textarea>
+                                                </div>
+                                                @error('product_description')
+                                                    <span class="text-danger">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                                <div class="form-group ">
+
+                                                    <label for="cc-payment" class="control-label mb-1">Product
+                                                        Price</label>
+                                                    <input id="cc-pament" name="product_price" type="text"
+                                                        class="form-control  @error('product_price')is-invalid @enderror"
+                                                        aria-required="true" aria-invalid="false"
+                                                        placeholder="{{ $product->price }}">
+                                                </div>
+                                                @error('product_price')
+                                                    <span class="text-danger">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+
+                                                <div class="mt-3">
+                                                    <label>Product category</label><br>
+                                                    <select name="product_category" class="mt-3 form-control">
+                                                        @foreach ($products as $p)
+                                                            <option
+                                                                value="{{ old('product_name', $product->product_category) }}">
+                                                                {{ $p->product_category }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select><br>
+                                                    @error('product_category')
+                                                        <span class="text-danger">
+                                                            {{ $message }}
+                                                        </span>
+                                                    @enderror
+                                                </div>
+
+                                                <img class="img-thumbnail"
+                                                    src="{{ asset('storage/ProductsImages/' . $product->image) }}"
+                                                    alt="Card image cap">
+
+                                                <div class="form-group ">
+
+                                                    <label for="cc-payment" class="control-label mb-1">Image</label>
+                                                    <input id="cc-pament" name="product_image" type="file"
+                                                        class="form-control  @error('product_image')is-invalid @enderror"
+                                                        aria-required="true" aria-invalid="false">
+                                                </div>
+                                                @error('product_image')
+                                                    <span class="text-danger">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+
+                                                <div>
+                                                    <button type="submit"
+                                                        class="au-btn au-btn--block au-btn--green m-b-20 mt-3">
+                                                        Update
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </form>
+
+
                             <!-- END DATA TABLE -->
                         </div>
                     </div>

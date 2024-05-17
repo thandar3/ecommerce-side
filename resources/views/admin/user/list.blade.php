@@ -161,7 +161,14 @@
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="{{ asset('defaultImage.png') }}" alt="John Doe" />
+                                                        @if (Auth::user()->image == null)
+                                                            <img src="{{ asset('defaultImage.png') }}"
+                                                                alt="Default user" />
+                                                        @else
+                                                            <img class=""
+                                                                src="{{ asset('storage/userPhotos/' . Auth::user()->image) }}"
+                                                                alt="Card image cap">
+                                                        @endif
                                                     </a>
                                                 </div>
                                                 <div class="content">
@@ -173,13 +180,23 @@
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="#">
+                                                    <a href="{{ route('account#show') }}">
                                                         <i class="zmdi zmdi-account"></i>Account</a>
                                                 </div>
                                             </div>
+                                            <div class="account-dropdown__body">
+                                                <div class="account-dropdown__item">
+                                                    <a href="{{ route('account#create') }}">
+                                                        <i class="zmdi zmdi-account"></i>Account Edit</a>
+                                                </div>
+                                            </div>
                                             <div class="account-dropdown__footer">
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-power"></i>Logout</a>
+                                                <form action="{{ route('logout') }}" method="POST">
+                                                    @csrf
+
+                                                    <button type="submit" class="btn p-3"> <i
+                                                            class="zmdi zmdi-power me-2"></i>Logout</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -246,11 +263,11 @@
                                         @foreach ($users as $u)
                                             <th class="col-1">
                                                 @if ($u->image == null)
-                                                    <img src="{{ asset('defaultImage.png') }}" alt="Male User"
-                                                        class="img-thumbnail ms-2" />
+                                                    <img src="{{ asset('defaultImage.png') }}" alt="Default user" />
                                                 @else
-                                                    <img src="{{ asset('storage/userImage' . $u->image) }}"
-                                                        alt="login user" class="img-thumbnail ms-2" />
+                                                    <img class=""
+                                                        src="{{ asset('storage/userPhotos/' . $u->image) }}"
+                                                        alt="Card image cap">
                                                 @endif
                                             </th>
                                             <input type="hidden" value="{{ $u->id }}" id="userId">

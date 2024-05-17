@@ -14,6 +14,13 @@
         color: rgb(241, 109, 72);
         font-family: "Mali", cursive;
     }
+
+    .change_password {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 </style>
 
 @section('content')
@@ -45,6 +52,12 @@
                 </div>
             </div>
         </form>
+        <div class="change_password">
+            <label for="">If you forget password</label>
+            <a href="" class="btn btn-outline-red ">
+                <button class="text-danger">Change Password</button>
+            </a>
+        </div>
         <div class="register-link">
             <p>
                 Don't you have account?
