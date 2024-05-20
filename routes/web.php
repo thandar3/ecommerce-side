@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserAccController;
 use App\Http\Controllers\AdminAccController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductControllerUser;
@@ -63,7 +64,14 @@ Route::middleware(['user_auth'])->group(function () {
     //category
     Route::prefix('product')->group(function(){
         Route::get('list',[ProductControllerUser::class,'productList'])->name('product#list');
+        Route::get('filter/{id}',[ProductControllerUser::class,'productFilter'])->name('product#filter');
+    });
 
+    //acc
+    Route::prefix('user')->group(function (){
+        Route::get('show',[UserAccController::class,'showAcc'])->name('user#show');
+        Route::get('edit/{userId}',[UserAccController::class,'editAcc'])->name('user#edit');
+        Route::post('update',[UserAccController::class,'updateAcc'])->name('user#update');
     });
 });
 
