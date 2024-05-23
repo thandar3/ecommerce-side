@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserAccController;
@@ -65,6 +66,16 @@ Route::middleware(['user_auth'])->group(function () {
     Route::prefix('product')->group(function(){
         Route::get('list',[ProductControllerUser::class,'productList'])->name('product#list');
         Route::get('filter/{id}',[ProductControllerUser::class,'productFilter'])->name('product#filter');
+    });
+
+    //detail for each product
+    Route::prefix('eachProduct')->group(function (){
+        Route::get('detail/{id}/{productPrice}',[ProductControllerUser::class,'detail'])->name('eachProduct#detail');
+    });
+
+    Route::prefix('ajax')->group(function(){
+        Route::get('totalProduct',[ProductControllerUser::class,'totalProduct'])->name('ajax#totalProduct');
+        Route::get('orderList',[AjaxController::class,'orderList'])->name('ajax#orderList');
     });
 
     //acc

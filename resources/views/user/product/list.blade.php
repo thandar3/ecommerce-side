@@ -19,7 +19,7 @@
                             class="custom-control  bg-dark custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="" class="custom-control-input" checked id="price-all">
                             <label class="ms-2 mt-1 text-white" for="price-all">Categories</label>
-                            <span class="badge me-4 border font-weight-normal text-white"></span>
+                            <span class="badge me-4 border font-weight-normal text-white">{{ count($categories) }}</span>
                         </div>
                         <hr>
                         @foreach ($categories as $c)
@@ -97,7 +97,8 @@
                                             <div class="product-action">
                                                 <a class="btn btn-outline-dark btn-square" href=""><i
                                                         class="fa fa-shopping-cart"></i></a>
-                                                <a class="btn btn-outline-dark btn-square" href=""><i
+                                                <a class="btn btn-outline-dark btn-square"
+                                                    href="{{ route('eachProduct#detail', ['id' => $p->id, 'productPrice' => $p->price]) }}"><i
                                                         class="fa-solid fa-circle-info"></i></a>
                                             </div>
                                         </div>

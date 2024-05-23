@@ -52,12 +52,12 @@
                 </div>
             </div>
         </form>
-        <div class="change_password">
+        {{-- <div class="change_password">
             <label for="">If you forget password</label>
             <a href="" class="btn btn-outline-red ">
                 <button class="text-danger">Change Password</button>
             </a>
-        </div>
+        </div> --}}
         <div class="register-link">
             <p>
                 Don't you have account?

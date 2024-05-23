@@ -102,7 +102,7 @@ class ProductController extends Controller
     private function productCreatedList($request){
         return [
             'name' => $request->product_name,
-            'description' => $request->product_description,
+            'description' => $request->description,
             'product_category' => $request->product_category,
             'price' => $request->product_price,
         ];
