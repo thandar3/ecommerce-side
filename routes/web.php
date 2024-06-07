@@ -3,10 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserAccController;
 use App\Http\Controllers\AdminAccController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DeliveryController;
+use App\Http\Controllers\OrderListController;
 use App\Http\Controllers\ProductControllerUser;
 
 Route::middleware(['admin_auth'])->group(function () {
@@ -73,9 +76,19 @@ Route::middleware(['user_auth'])->group(function () {
         Route::get('detail/{id}/{productPrice}',[ProductControllerUser::class,'detail'])->name('eachProduct#detail');
     });
 
+    //ajax
     Route::prefix('ajax')->group(function(){
         Route::get('totalProduct',[ProductControllerUser::class,'totalProduct'])->name('ajax#totalProduct');
         Route::get('orderList',[AjaxController::class,'orderList'])->name('ajax#orderList');
+        Route::get('orderDelete',[AjaxController::class,'orderDelete'])->name('ajax#orderdelete');
+        Route::get('orderListed',[OrderListController::class,'orderListes'])->name('ajax#orderListes');
+        Route::get('orderEach',[OrderListController::class,'orderEach'])->name('ajax#orderEach');
+        Route::get('clearOrder',[AjaxController::class,'clearOrder'])->name('ajax#clearOrder');
+        Route::get('cart',[CartController::class,'orderCard'])->name('ajax#orderCart');
+        Route::get('vocher',[CartController::class,'orderVocher'])->name('ajax#vocher');
+        Route::post('deliveryUser',[DeliveryController::class,'diliveryUser'])->name('ajax#deliveryUser');
+        Route::get('vocherDetail',[DeliveryController::class,
+        'vocherDetail'])->name('ajax#vocherDetail');
     });
 
     //acc

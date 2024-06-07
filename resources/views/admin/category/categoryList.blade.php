@@ -235,6 +235,11 @@
                                         <i class="zmdi zmdi-plus"></i>Add Item
                                     </button>
                                 </a>
+                                <a href="{{ route('productAdmin#List') }}">
+                                    <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                        <i class="zmdi zmdi-plus"></i>Product create
+                                    </button>
+                                </a>
 
                             </div>
                         </div>

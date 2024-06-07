@@ -20,6 +20,7 @@
                             <input type="" class="custom-control-input" checked id="price-all">
                             <label class="ms-2 mt-1 text-white" for="price-all">Categories</label>
                             <span class="badge me-4 border font-weight-normal text-white">{{ count($categories) }}</span>
+
                         </div>
                         <hr>
                         @foreach ($categories as $c)
@@ -53,13 +54,13 @@
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <div>
-                                <a href="">
+                                <a href="{{ route('ajax#orderList') }}">
                                     <button type="button" class="btn btn-dark text-white  position-relative"
                                         style="border-radius: 10px">
-                                        <i class="fa-solid fa-cart-plus"></i>
+                                        <i class="fa-solid fa-cart-plus "></i>
                                         <span
                                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-
+                                            {{ count($productOrder) }}
                                         </span>
                                     </button>
                                 </a>

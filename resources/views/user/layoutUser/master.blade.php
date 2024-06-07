@@ -58,8 +58,12 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="{{ route('product#list') }}" class="nav-item nav-link active">Home</a>
-                            <a href="cart.html" class="nav-item nav-link">My Cart</a>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="{{ route('ajax#orderList') }}" class="nav-item nav-link" id="myOrder">My
+                                Order</a>
+                            <a href="{{ route('ajax#orderCart') }}" class="nav-item nav-link">
+                                Order list</a>
+                            <a href="{{ route('ajax#vocher') }}" class="nav-item nav-link">Delivery</a>
+                            <a href="{{ route('ajax#vocherDetail') }}" class="nav-item nav-link">Vocher</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                             {{-- <a href="" class="btn px-0 me-2">
@@ -132,7 +136,8 @@
                                 Shop</a>
                             <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shop
                                 Detail</a>
-                            <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shopping
+                            <a class="text-secondary mb-2" href="#"><i
+                                    class="fa fa-angle-right mr-2"></i>Shopping
                                 Cart</a>
                             <a class="text-secondary mb-2" href="#"><i
                                     class="fa fa-angle-right mr-2"></i>Checkout</a>

@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Delivery extends Model
+class OrderList extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','name','email','phone','address','delivery_fee'];
+    protected $fillable = ['user_id','product_id','order_id','sub_total','total_price','pin_code','total_each'];
 }

@@ -137,7 +137,7 @@
             $('#addCartBtn').click(function() {
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8000/ajax/totalProduct',
+                    url: '/ajax/totalProduct',
                     data: {
                         'userId': $('#userId').val(),
                         'productId': $('#productId').val(),

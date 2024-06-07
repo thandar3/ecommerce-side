@@ -7,14 +7,17 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductControllerUser extends Controller
 {
     //product for user
     public function productList(){
         $products = Product::get();
+        $productOrder = Order::where('user_id',Auth::user()->id)->get();
         $categories = Category::get();
-        return view('user.product.list',compact('products','categories'));
+        $orders = Order::get();
+        return view('user.product.list',compact('products','categories','orders','productOrder'));
     }
 
     //product filter

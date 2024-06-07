@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('deliveries', function (Blueprint $table) {
+        Schema::create('order_lists', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->string('name');
-            $table->string('email');
-            $table->integer('phone');
-            $table->string('address');
-            $table->integer('delivery_fee');
+            $table->integer('product_id');
+            $table->integer('order_id');
+            $table->integer('sub_total');
+            $table->integer('total_price');
+            $table->integer('total_each');
+            $table->string('pin_code')->default('37884|||');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('deliveries');
+        Schema::dropIfExists('order_lists');
     }
 };

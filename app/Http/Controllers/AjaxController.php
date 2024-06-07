@@ -16,4 +16,16 @@ class AjaxController extends Controller
         ->get();
         return view('user.order.list',compact('orderList'));
     }
+
+    //order delete
+    public function orderDelete(Request $request){
+        Order::where('id',$request->order_id)
+        ->delete();
+    }
+
+    //clear order
+    public function clearOrder(){
+        Order::where('user_id',Auth::user()->id)->delete();
+        return back();
+    }
 }
